@@ -1,9 +1,9 @@
-# Codebase-as-Data
+# LogicAIn
 
-A lightweight toolkit that turns a Python codebase into a queryable data graph.
-It decomposes every function and class into a SQLite registry, maps the
-dependencies between them, and exposes the whole thing through a single CLI tool
-(`logic.py`) — no SQL required.
+LogicAIn is a high-fidelity toolkit that implements the **Codebase-as-Data architecture**. 
+It turns a Python codebase into a queryable data graph by decomposing every function 
+and class into a SQL registry, mapping the dependencies between them, and exposing 
+the entire structure through a single CLI tool—no manual SQL required.
 
 ---
 
