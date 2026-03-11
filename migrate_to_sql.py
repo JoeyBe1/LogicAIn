@@ -2,7 +2,7 @@ import os
 import sqlite3
 import json
 import hashlib
-from src.ast_decomposer import decompose_source
+from src.ast_decomposer import ASTDecomposer
 
 DB_PATH = "db/logic_registry.db"
 SCHEMA_PATH = "db/schema.sql"
@@ -40,7 +40,8 @@ def migrate():
                 with open(file_path, "r") as f:
                     source = f.read()
                 
-                logic = decompose_source(source)
+                decomposer = ASTDecomposer(source)
+                logic = decomposer.get_full_decomposition()
                 
                 # Upsert module
                 if row:
@@ -58,7 +59,7 @@ def migrate():
                 # Insert Imports
                 for imp in logic["imports"]:
                     cursor.execute("INSERT INTO imports (module_id, imported_module, imported_names, line_number) VALUES (?, ?, ?, ?)",
-                                   (module_id, imp["module"], json.dumps(imp["names"]), imp["line" nhm]))
+                                   (module_id, imp["module"], json.dumps(imp["names"]), imp["line"]))
                 
                 # Insert Classes
                 for cls in logic["classes"]:
@@ -67,12 +68,12 @@ def migrate():
                     class_id = cursor.lastrowid
                     for method in cls["methods"]:
                         cursor.execute("INSERT INTO functions (module_id, class_id, name, arguments, return_type, docstring, logic_calls, line_start, line_end) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                                       (module_id, class_id, method["name"], json.dumps(method["arguments"]), method["return_type"], method["docstring"], json.dumps(method["logic_calls"]), method["line_start"], method["line_end"]))
+                                       (module_id, class_id, method["self_explanatory_name"], json.dumps(method["arguments"]), method["return_type"], method["docstring"], json.dumps(method["logic_calls"]), method["line_start"], method["line_end"]))
 
                 # Insert Top-level Functions
                 for func in logic["functions"]:
                     cursor.execute("INSERT INTO functions (module_id, class_id, name, arguments, return_type, docstring, logic_calls, line_start, line_end) VALUES (?, NULL, ?, ?, ?, ?, ?, ?, ?)",
-                                   (module_id, func["name"], json.dumps(func["arguments"]), func["return_type"], func["docstring"], json.dumps(func["logic_calls"]), func["line_start"], func["line_end"]))
+                                   (module_id, func["self_explanatory_name"], json.dumps(func["arguments"]), func["return_type"], func["docstring"], json.dumps(func["logic_calls"]), func["line_start"], func["line_end"]))
                 
                 # Insert Constants
                 for const in logic["constants"]:
