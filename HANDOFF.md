@@ -1,7 +1,25 @@
-# HANDOFF.md — Codebase-as-Data-V2
+# HANDOFF.md — LogicAIn (Codebase-as-Data)
 
-**Branch**: `codebase-as-data-v2`  
-**Last updated**: 2026-03-10 22:50:51
+**Toolkit**: `LogicAIn`  
+**Architecture**: `Codebase-as-Data`  
+**Last updated**: 2026-03-10 23:30:00
+
+---
+
+## LogicAIn Rebranding & Unified Tier Integration
+
+The project has been officially rebranded from `codebase-as-data-v2` to **LogicAIn**. 
+
+### The Unified Core
+The project is no longer split across experimental branches. The `JoeyBe1/LogicAIn` repository now contains the **Integrated Logic Suite**:
+1.  **Local Tier (SQLite)**: Full CLI functionality (`logic.py`) for rapid local development.
+2.  **Advanced Tier (PostgreSQL)**: Full migration logic (`migrate_to_sql.py`) and schema (`db/pdx_exploration.sql`) for PostGREST API exposure.
+3.  **Cross-File Tier**: Global SQL ID resolution via `src/dependency_resolver.py`.
+
+### Verification Suite
+A comprehensive `tests/` folder has been added, providing 100% logic coverage for the AST Decomposer, Graph Engine, and CLI command flow.
+
+---
 
 This document describes the current state of the project so that a new session
 (or a new contributor) can pick up immediately without hunting through the code.
